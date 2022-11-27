@@ -1,0 +1,13 @@
+{
+    "name": "waterwisteria/accept-language",
+    "description": "Accept language based on header or cookie",
+    "type": "library",
+    "require": {
+
+    },
+    "autoload": {
+        "psr-4": {
+            "Waterwisteria\\AcceptLanguage\\": "src/"
+        }
+    }
+}
