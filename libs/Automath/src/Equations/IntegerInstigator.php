@@ -1,26 +1,38 @@
 <?php
 namespace Automath\Equations;
+use TypeError;
 
-class IntegerInstigator implements \Automath\IInstigator
+class IntegerInstigator implements \Automath\Instigator
 {
-	protected array $range;
+	protected array $parameters = [ 'aRange' => null, 'bRange' => null, 'biggestTermFirst' => false ];
 
-	public function __construct(array $aRange, array $bRange)
+	public function setProblemParameter(string $paramName, $value) : void
 	{
-		// Check if types match, we expect variables a and b.
-		if(count($aRange) !== 2 || count($bRange) !== 2)
+		if(!key_exists($paramName, $this->parameters))
 		{
-			throw new \TypeError('expecting min and max range for a and b');
+			throw new \TypeError('Problem parameters are aRange and bRange');
 		}
 
-		$this->range = [ 'a' => $aRange, 'b' => $bRange ];
+		$this->parameters[$paramName] = $value;
 	}
-	
-	public function create() : \Automath\IProblem
-	{
-		$a = rand(min($this->range['a']), max($this->range['a']));
-		$b = rand(min($this->range['b']), max($this->range['b']));
 
-		return new IntegerProblem([ 'a' => $a, 'b' => $b ]);
+	public function create() : \Automath\Problem
+	{
+		$problem = new IntegerProblem();
+		$a = rand(min($this->parameters['aRange']), max($this->parameters['aRange']));
+		$b = rand(min($this->parameters['bRange']), max($this->parameters['bRange']));
+
+		// Swap vars if b is bigger, for always positive substraction.
+		if($this->parameters['biggestTermFirst'] && $a < $b)
+		{
+			$t = $a;
+			$a = $b;
+			$b = $t;
+		}
+		
+		$problem->set('a', $a);
+		$problem->set('b', $b);
+
+		return $problem;
 	}
 }

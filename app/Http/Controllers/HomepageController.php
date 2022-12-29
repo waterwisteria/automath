@@ -7,6 +7,6 @@ class HomepageController extends Controller
 {
     public function home(Request $request)
     {
-        return view('agency/homepage');
+        return view('cyborg/pages/home');
     }
 }

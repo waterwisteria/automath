@@ -13,6 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
+        return;
+        
         Schema::create('plans', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100)->unique();
@@ -41,6 +43,8 @@ return new class extends Migration
      */
     public function down()
     {
+        return;
+        
         Schema::dropIfExists('plans');
         Schema::dropIfExists('plan_units');
 

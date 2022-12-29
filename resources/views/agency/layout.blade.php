@@ -19,6 +19,7 @@
         
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="/agency/styles.css" rel="stylesheet" />
+        <link href="/agency/app.css" rel="stylesheet" />
     </head>
     <body id="page-top">
         @yield('body')

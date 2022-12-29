@@ -7,13 +7,18 @@ class ProblemsController extends \App\Http\Controllers\Controller
 {
 	public function home()
 	{
-		$integerInstigator = new \Automath\Equations\Addition\IntegerInstigator([ 0, 10 ], [ 0, 10 ]);
+		$integerInstigator = new \Automath\Equations\IntegerInstigator();
+		$integerInstigator->setProblemParameter('aRange', [ 0, 10 ]);
+		$integerInstigator->setProblemParameter('bRange', [ 0, 10 ]);
+		$integerInstigator->setProblemParameter('biggestTermFirst', false);
 		$integerProblem = $integerInstigator->create();
-		$integerSolver = new \Automath\Equations\Addition\IntegerSolver($integerProblem);
+
+		$integerSolver = new \Automath\Equations\Substraction\Solver();
+		$integerSolver->setProblem($integerProblem);
 		
 		dump($integerProblem);
-		dump($integerSolver->solve());
+		dump($integerSolver->getSolution());
 		
-		return view('automath/problem');
+		//return view('automath/problem');
 	}
 }
