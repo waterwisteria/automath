@@ -1,7 +1,16 @@
-@extends('agency/page')
+@extends('cyborg/body')
 
-@section('content')
-	<section class="quiz-results">
-		{{ $quiz->getFinalScore() }}%
-	</section>
+@section('page')
+	<div class="start-stream">
+		<div class="col-lg-12">
+			<div class="heading-section">
+				<h4>{{ $quiz->title }}</h4>
+			</div>
+			<div class="row quiz-entries">
+				@foreach($quiz->quizEntries as $entry)
+					@automath_include($entry->problem->problemDefinition->solver, 'show')
+				@endforeach
+			</div>
+		</div>
+	</div>
 @endsection
