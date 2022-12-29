@@ -1,0 +1,21 @@
+.warning
+{
+	color: #f00;
+}
+
+.w
+{
+	color: #FFF;
+}
+
+.section
+{
+	border-radius: 23px;
+	background-color: #1f2122;
+	padding: 30px;
+}
+
+.quiz-entries > div
+{
+	margin-bottom: 2em;
+}

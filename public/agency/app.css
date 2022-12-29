@@ -1,0 +1,26 @@
+table.automath
+{
+	/* border: 2px solid red; */
+	padding: 1em 2em;
+}
+
+table.automath .term
+{
+	text-align: end;
+}
+
+.practice-form ul
+{
+	list-style-type: none;
+}
+
+.solution-field
+{
+	border-top: 1px solid black;
+}
+
+.solution-field td input
+{
+	text-align: right;
+	padding-right: 0;
+}
