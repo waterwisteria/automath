@@ -60,9 +60,11 @@ class QuizEntry extends Model
     public function grade($input) : int
     {
         $solution = $this->getSolver()->solutionFromInput($input);
-
-        $this->solution = $solution;
         $this->score = $this->getSolver()->grade($solution);
+
+        // Pass Solution to grade() and let Eloquent cast the property
+        // to array.
+        $this->solution = $solution;
         
         return $this->score;
     }

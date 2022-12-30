@@ -8,6 +8,7 @@
 			<div class="col-lg-12">
 				<div class="heading-section">
 					<h4>{{ $quiz->title }} <em>{{ $quiz->questionsAnswered() }}/{{ $quiz->quizEntries->count() }}</h4>
+					<h5>{{ date('r', $qst) }}</h5>
 				</div>
 				<div class="row quiz-entries">
 					@foreach($quizEntries as $entry)

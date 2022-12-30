@@ -1,10 +1,16 @@
 <!-- ***** Dashboard Start ***** -->
+
+
 <div class="row">
 	<div class="col-lg-12">
 		<div class="main-profile ">
 			<div class="row">
 				<div class="col-lg-4">
-					<img src="/cyborg/assets/images/profile.jpg" alt="" style="border-radius: 23px;">
+					<div>
+						<canvas id="myChart"></canvas>
+					</div>
+					
+					<!-- img src="/cyborg/assets/images/profile.jpg" alt="" style="border-radius: 23px;" -->
 				</div>
 				<div class="col-lg-4 align-self-center">
 					<div class="main-info header-text">
@@ -28,4 +34,27 @@
 		</div>
 	</div>
 </div>
+
+<script>
+const ctx = document.getElementById('myChart');
+
+new Chart(ctx, {
+	type: 'bar',
+	data: {
+		labels: [ '{!! implode('\', \'', $lastQuizLabels) !!}' ],
+		datasets: [{
+			label: 'Quiz results',
+			data: [ {{ implode(', ', $lastQuizResults) }} ],
+			borderWidth: 1
+		}]
+	},
+	options: {
+		scales: {
+			y: {
+				beginAtZero: true
+			}
+		}
+	}
+});
+</script>
 <!-- ***** Dashboard End ***** -->

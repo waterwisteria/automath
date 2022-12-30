@@ -8,6 +8,12 @@
 	color: #FFF;
 }
 
+.strike
+{
+	text-decoration: line-through;
+	text-decoration-color: #f00;
+}
+
 .section
 {
 	border-radius: 23px;

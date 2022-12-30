@@ -3,10 +3,10 @@
 	<div class="row">
 		<div class="col-lg-7">
 			<div class="header-text">
-				<h6>Welcome To Cyborg</h6>
-				<h4><em>Browse</em> Our Popular Games Here</h4>
+				<h6>{{ __('automath.welcome') }}</h6>
+				<h4>{{ __('automath.surpass') }}</h4>
 				<div class="main-button">
-					<a href="cyborg/browse">Browse Now</a>
+					<a href="cyborg/browse">{{ __('automath.start-practice') }}</a>
 				</div>
 			</div>
 		</div>

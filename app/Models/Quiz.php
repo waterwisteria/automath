@@ -81,11 +81,11 @@ class Quiz extends Model
 	 * 
 	 * @return ?int 
 	 */
-	public function getFinalScore() : ?float
+	public function getFinalScore(int $round = 2) : ?float
 	{
 		if($this->status === QuizStatus::Completed->value)
 		{
-			$this->finalScore = round($this->score / 100, 2);
+			$this->finalScore = round($this->score / 100, $round);
 		}
 
 		return $this->finalScore;

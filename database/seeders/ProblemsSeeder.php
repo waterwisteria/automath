@@ -6,6 +6,7 @@ use App\Models\ProblemDefinition;
 use App\Models\Problem;
 use App\Models\User;
 use App\Enums\QuizStatus;
+use Automath\Equations\Solution;
 
 class ProblemsSeeder extends Seeder
 {
@@ -67,6 +68,8 @@ class ProblemsSeeder extends Seeder
 
         $faker = \Faker\Factory::create('en_US');
 
+        $lastMonth = time() - (86400 * 30);
+        
         // Let's generate 10 completed quizzes and 2 pending...
         for($i = 0; $i <= 10; $i++)
         {
@@ -95,8 +98,16 @@ class ProblemsSeeder extends Seeder
                 $quizEntry->save();
             }
 
+            $quizzGen->getQuiz()->time_spent = rand(60, 300);
             $quizzGen->getQuiz()->close();
             $quizzGen->getQuiz()->save();
+
+            // We want to fake the updated_at field but it's only possible
+            // to do so when setting timestamps off in save. Which we
+            // want in the first case for created_at. So a double save :|...
+            // It's just a seeder for dev.
+            $quizzGen->getQuiz()->updated_at = date('Y-m-d H:i:s', $lastMonth += 86400 );
+            $quizzGen->getQuiz()->save([ 'timestamps' => false ]);
         }
 
         // ...2 pending

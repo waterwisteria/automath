@@ -10,5 +10,6 @@ return [
 	'total-problems' => 'Total problems',
 	'date-added' => 'Date added',
 	'completed%' => 'Completed',
-	'submit-answers' => 'Submit answers'
+	'submit-answers' => 'Submit answers',
+	'completed-in' => 'Completed in'
 ];

@@ -15,7 +15,7 @@ class ProfileController extends Controller
      */
     public function edit(Request $request)
     {
-        return view('cyborg/pages/profile', [
+        return view('profile/edit', [
             'user' => $request->user(),
         ]);
     }

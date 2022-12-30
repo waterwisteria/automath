@@ -1,2 +1,2 @@
 @php($operand = '-')
-@include('Automath/Equations/IntegerProblem')
+@include('Automath/Equations/IntegerProblemEdit')

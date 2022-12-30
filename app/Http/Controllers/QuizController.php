@@ -12,6 +12,12 @@ use Illuminate\Http\Request;
 
 class QuizController extends Controller
 {
+    /**
+     * At what time the quiz was started.
+     * 
+     */
+    public const QUIZ_START_TIME = 'quiz_start_time';
+
     public function quizzes()
     {
         $quizzes = Quiz::where('user_id', Auth::user()->id)->where('status', \App\Enums\QuizzStatus::Inprogress)->get();
@@ -21,10 +27,14 @@ class QuizController extends Controller
         ]);
     }
 
-    public function solveQuiz(int $quizId)
+    public function solveQuiz(Request $request, int $quizId)
     {
         $quiz = Quiz::find($quizId);
 
+        // Store quiz start time in session. If present already blank
+        // it out, previous quiz must have been abandoned.
+        $request->session()->put(self::QUIZ_START_TIME, time());
+        
         // If the quiz exists, it must belong to current user.
         if(($quiz->user_id ?? 0) !== Auth::user()->id)
         {
@@ -35,15 +45,13 @@ class QuizController extends Controller
 
         return view('Automath/quizzes/solveProblems', [
             'quiz' => $quiz,
-            'quizEntries' => $quizEntries
+            'quizEntries' => $quizEntries,
+            'qst' => $request->session()->get(self::QUIZ_START_TIME, -1)
         ]);
     }
 
     public function postQuiz(Request $request, int $id)
     {
-        $scoreSoFar = 0;
-        $totalScore = 0;
-        
         $validated = $request->validate([
             'solution.*' => 'nullable|integer'
         ]);
@@ -59,8 +67,7 @@ class QuizController extends Controller
                 {
                     // Grade solution
                     $quizEntry = QuizEntry::find($quizEntryId);
-                    $scoreSoFar += $quizEntry->grade($solution);
-                    //$totalScore += $quizEntry->getSolver()->totalPoints();
+                    $quizEntry->grade($solution);
                     $quizEntry->save();
                 }
             }
@@ -68,20 +75,27 @@ class QuizController extends Controller
 
         $quizEntries = QuizEntry::where('quiz_id', $id)->whereNull('solution')->get();
         $quiz = Quiz::find($id);
+
         
+        // Compute time spent from quiz start time and store it in
+        // model regardless of errors.
+        $quiz->time_spent += time() - $request->session()->get(self::QUIZ_START_TIME, time());
+        $request->session()->put(self::QUIZ_START_TIME, time());
+
         if(count($quizEntries) === 0)
         {
-            //$quiz->status = QuizStatus::Completed;
-            //$quiz->score = intval(($scoreSoFar / $totalScore) * 10000);
             $quiz->close();
-            //$quiz->save();
-            
+            $quiz->save();
+
             return redirect()->route('result.quiz', [ 'id' => $quiz->id ]);
         }
-        
+
+        $quiz->save();
+
         return view('Automath/quizzes/solveProblems', [
             'quiz' => $quiz,
-            'quizEntries' => $quizEntries
+            'quizEntries' => $quizEntries,
+            'qst' => $request->session()->get(self::QUIZ_START_TIME, -1)
         ]);
     }
 

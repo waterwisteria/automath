@@ -18,6 +18,16 @@ class DashboardController extends Controller
             ->where('quizzes.user_id', Auth::user()->id)
             ->count();
 
+        $quizzesChart = Quiz::where('user_id', Auth::user()->id)->where('status', \App\Enums\QuizStatus::Completed)->orderBy('id', 'asc')->latest()->take(10)->get();
+        $lastQuizResults = [ ];
+        $lastQuizLabels = [ ];
+        
+        foreach($quizzesChart as $quiz)
+        {
+            $lastQuizResults[] = $quiz->getFinalScore();
+            $lastQuizLabels[] = $quiz->updated_at->format('M-d');
+        }
+        
         $pendingQuizzes = Quiz::where('user_id', Auth::user()->id)->where('status', \App\Enums\QuizStatus::Inprogress)->get();
 
         return view('cyborg/pages/dashboard', [
@@ -25,6 +35,8 @@ class DashboardController extends Controller
             'questionsAnswered' => $questionsAnswered,
             'bestQuizzes' => $bestQuizzes,
             'pendingQuizzes' => $pendingQuizzes,
+            'lastQuizResults' => $lastQuizResults,
+            'lastQuizLabels' => $lastQuizLabels,
             'user' => Auth::user()
         ]);
     }

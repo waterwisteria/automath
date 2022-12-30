@@ -37,7 +37,7 @@ body {
 		<form method="post" action="{{ route('login') }}">
 			@csrf
 			
-			<h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+			<h1 class="h3 mb-3 fw-normal">{{ __('Log in') }} | <a href="{{ route('register') }}">Register</a></h1>
 			
 			<x-auth-session-status class="mb-4" :status="session('status')" />
 			
@@ -58,8 +58,18 @@ body {
 					<input type="checkbox" value="remember-me"> {{ __('Remember me') }}
 				</label>
 			</div>
+
+			<div class="mb-3 w">
+				@if (Route::has('password.request'))
+					<a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
+						{{ __('Forgot your password?') }}
+					</a>
+				@endif
+			</div>
 			
-			<button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+			<button class="w-100 btn btn-lg btn-primary" type="submit">{{ __('Log in') }}</button>
+
+			
 		</form>
 	</div>
 </main>

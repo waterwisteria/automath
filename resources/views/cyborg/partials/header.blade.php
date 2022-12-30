@@ -9,26 +9,26 @@
 						<img src="/cyborg/assets/images/logo.png" alt="">
 					</a>
 					<!-- ***** Logo End ***** -->
-					
+
 					<!-- ***** Search End ***** -->
-					<div class="search-input">
+					<!-- div class="search-input">
 						<form id="search" action="#">
 							<input type="text" placeholder="Type Something" id="searchText" name="searchKeyword" onkeypress="handle">
 							<i class="fa fa-search"></i>
 						</form>
-					</div>
+					</div -->
 					<!-- ***** Search End ***** -->
-					
+
 					<!-- ***** Menu Start ***** -->
 					<ul class="nav">
 						<li><a href="/" class="active">Home</a></li>
 						@guest
-						<li><a href="/login">Login</a></li>
+							<li><a href="/login">Login</a></li>
 						@endguest
 						@auth
-						<li><a href="/logout">Logout</a></li>
-						<li><a href="/dashboard">Dashboard</a></li>
-						<li><a href="/profile">Profile <img src="/cyborg/assets/images/profile-header.jpg" alt=""></a></li>
+							<li><a href="/logout">Logout</a></li>
+							<li><a href="/profile">Profile</a></li>
+							<li><a href="/dashboard">Dashboard <img src="/cyborg/assets/images/profile-header.jpg" alt=""></a></li>
 						@endauth
 					</ul>
 					<a class="menu-trigger">
