@@ -90,4 +90,17 @@ class Quiz extends Model
 
 		return $this->finalScore;
 	}
+
+	public function summary() : string
+	{
+		$scores = [ ];
+		
+		foreach($this->quizEntries as $quizEntry)
+		{
+			$scores[$quizEntry->problem->id] = $quizEntry->problem->description;
+		}
+
+
+		return implode(', ', $scores);
+	}
 }

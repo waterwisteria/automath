@@ -21,11 +21,11 @@ class DashboardController extends Controller
         $quizzesChart = Quiz::where('user_id', Auth::user()->id)->where('status', \App\Enums\QuizStatus::Completed)->orderBy('id', 'asc')->latest()->take(10)->get();
         $lastQuizResults = [ ];
         $lastQuizLabels = [ ];
-        
+
         foreach($quizzesChart as $quiz)
         {
             $lastQuizResults[] = $quiz->getFinalScore();
-            $lastQuizLabels[] = $quiz->updated_at->format('M-d');
+            $lastQuizLabels[] = $quiz->created_at->format('M-d');
         }
         
         $pendingQuizzes = Quiz::where('user_id', Auth::user()->id)->where('status', \App\Enums\QuizStatus::Inprogress)->get();
@@ -37,6 +37,7 @@ class DashboardController extends Controller
             'pendingQuizzes' => $pendingQuizzes,
             'lastQuizResults' => $lastQuizResults,
             'lastQuizLabels' => $lastQuizLabels,
+            'totalQuizTime' => Quiz::where('user_id', Auth::user()->id)->sum('time_spent'),
             'user' => Auth::user()
         ]);
     }

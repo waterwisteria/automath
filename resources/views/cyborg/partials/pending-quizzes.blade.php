@@ -9,7 +9,7 @@
 			<div class="item">
 				<ul>
 					<li><img src="/cyborg/assets/images/stream-0{{ rand(1, 8) }}.jpg" alt="" class="templatemo-item"></li>
-					<li><h4>{{ $quiz->title }}</h4><span>Arithmetics</span></li>
+					<li><h4>{{ $quiz->created_at->format('M-d') }}</h4><span>{{ $quiz->title }}</span></li>
 					<li><h4>{{ __('automath.date-added') }}</h4><span>{{ date('F d', strtotime($quiz->created_at)) }}</span></li>
 					<li><h4>{{ __('automath.total-problems') }}</h4><span>{{ $quiz->quizEntries->count() }}</span></li>
 					<li><h4>{{ __('automath.completed%') }}</h4><span>{{ floor($quiz->percentCompleted()) }}%</span></li>

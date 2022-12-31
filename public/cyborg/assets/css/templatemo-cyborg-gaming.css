@@ -888,6 +888,11 @@ Gaming Library Style
   padding-bottom: 20px;
 }
 
+.gaming-library .item:last-child {
+  border-bottom: 0;
+  margin-bottom: 0;
+}
+
 .gaming-library .last-item {
   margin-bottom: 30px;
 }

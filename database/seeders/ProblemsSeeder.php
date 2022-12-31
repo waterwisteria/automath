@@ -71,12 +71,12 @@ class ProblemsSeeder extends Seeder
         $lastMonth = time() - (86400 * 30);
         
         // Let's generate 10 completed quizzes and 2 pending...
-        for($i = 0; $i <= 10; $i++)
+        for($i = 0; $i <= 9; $i++)
         {
-            $quizzGen = new \App\Quiz\Generator($user, $faker->realText(22));
+            $quizzGen = new \App\Quiz\Generator($user, 'Arithmetic problems');
             $quizzGen->addProblemsRandomSolution(Problem::find(1), 20);
-            $quizzGen->addProblemsRandomSolution(Problem::find(2), 20);
-            $quizzGen->addProblemsRandomSolution(Problem::find(3), 20);
+            $quizzGen->addProblemsRandomSolution(Problem::find(2), 15);
+            $quizzGen->addProblemsRandomSolution(Problem::find(3), 10);
 
             // Solve them
             $maxCorrect = rand(0, 19);
@@ -106,17 +106,20 @@ class ProblemsSeeder extends Seeder
             // to do so when setting timestamps off in save. Which we
             // want in the first case for created_at. So a double save :|...
             // It's just a seeder for dev.
-            $quizzGen->getQuiz()->updated_at = date('Y-m-d H:i:s', $lastMonth += 86400 );
+            $quizzGen->getQuiz()->created_at = date('Y-m-d H:i:s', $lastMonth += 86400 );
             $quizzGen->getQuiz()->save([ 'timestamps' => false ]);
         }
 
         // ...2 pending
-        for($i = 0; $i <= 2; $i++)
+        for($i = 0; $i <= 1; $i++)
         {
-            $quizzGen = new \App\Quiz\Generator($user, $faker->realText(22));
+            $quizzGen = new \App\Quiz\Generator($user, 'Arithmetic problems');
             $quizzGen->addProblemsRandomSolution(Problem::find(1), 5);
             $quizzGen->addProblemsRandomSolution(Problem::find(2), 5);
             $quizzGen->addProblemsRandomSolution(Problem::find(3), 5);
+
+            $quizzGen->getQuiz()->created_at = date('Y-m-d H:i:s', $lastMonth += 86400 );
+            $quizzGen->getQuiz()->save([ 'timestamps' => false ]);
         }
     }
 }
