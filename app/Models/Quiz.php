@@ -5,6 +5,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\QuizEntry;
 use App\Models\User;
 use App\Enums\QuizStatus;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 
 class Quiz extends Model
 {
@@ -20,6 +22,11 @@ class Quiz extends Model
 	public function quizEntries()
 	{
 		return $this->hasMany(QuizEntry::class);
+	}
+
+	public function getUnansweredEntries() : Collection
+	{
+		return QuizEntry::where('quiz_id', $this->id)->whereNull('solution')->get();
 	}
 
 	public function questionsAnswered() : int
@@ -79,7 +86,8 @@ class Quiz extends Model
 	/**
 	 * Get final score in percentage
 	 * 
-	 * @return ?int 
+	 * @return ?float
+	 *
 	 */
 	public function getFinalScore(int $round = 2) : ?float
 	{
@@ -91,16 +99,25 @@ class Quiz extends Model
 		return $this->finalScore;
 	}
 
-	public function summary() : string
+	/**
+	 * Get by user AND state.
+	 * 
+	 * @param User $user
+	 * @param QuizStatus $quizStatus
+	 * 
+	 * @return Builder
+	 * 
+	 */
+	public static function getByUserState(User $user, QuizStatus $quizStatus = QuizStatus::Completed) : Builder
 	{
-		$scores = [ ];
-		
-		foreach($this->quizEntries as $quizEntry)
-		{
-			$scores[$quizEntry->problem->id] = $quizEntry->problem->description;
-		}
+		return self::where('user_id', $user->id)->where('status', $quizStatus);
+	}
 
-
-		return implode(', ', $scores);
+	public static function getUserAnsweredQuestionsCount(User $user) : int
+	{
+		return self::join('quiz_entries', 'quizzes.id', '=', 'quiz_entries.quiz_id')
+			->whereNotNull('quiz_entries.solution')
+			->where('quizzes.user_id', $user->id)
+			->count();
 	}
 }

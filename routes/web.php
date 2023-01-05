@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth')->group(function() {
+Route::middleware('auth')->group(function()
+{
     Route::get('/quizzes', [ App\Http\Controllers\QuizController::class, 'quizzes' ]);
     Route::get('/quiz/{id}', [ App\Http\Controllers\QuizController::class, 'solveQuiz' ])->name('solve.quiz');
     Route::post('/quiz/{id}', [ App\Http\Controllers\QuizController::class, 'postQuiz' ])->name('post.quiz');
@@ -21,17 +22,13 @@ Route::middleware('auth')->group(function() {
 });
 
 Route::get('/', [ App\Http\Controllers\HomepageController::class, 'home' ]);
-
-Route::get('/learn/unit/{slug}', [ App\Http\Controllers\PracticeController::class, 'learnUnitNow' ])->name('learn.unit');
-
-Route::get('/learn/units', [ App\Http\Controllers\PracticeController::class, 'showLearnUnits' ]);
-
-Route::get('/problems', [ App\Http\Controllers\Automath\ProblemsController::class, 'home' ])
-    ->middleware([ 'auth' ]);
-
 Route::get('/dashboard', [ App\Http\Controllers\DashboardController::class, 'dashboard' ])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/create-quiz', [ App\Http\Controllers\QuizController::class, 'createQuiz' ])->middleware(['auth', 'verified'])->name('create.quiz');
 
-// Route::get('/dashboard', function () { });
+// @TODO Clean up old controlers, delete...
+Route::get('/learn/unit/{slug}', [ App\Http\Controllers\PracticeController::class, 'learnUnitNow' ])->name('learn.unit');
+Route::get('/learn/units', [ App\Http\Controllers\PracticeController::class, 'showLearnUnits' ]);
+Route::get('/problems', [ App\Http\Controllers\Automath\ProblemsController::class, 'home' ])->middleware([ 'auth' ]);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ ProfileController::class, 'edit' ])->name('profile.edit');
@@ -64,4 +61,4 @@ Route::get('/theme/cyborg/profile', function()
     return view('cyborg-theme/pages/profile');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

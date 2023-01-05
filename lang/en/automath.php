@@ -12,5 +12,6 @@ return [
 	'completed%' => 'Completed',
 	'submit-answers' => 'Submit answers',
 	'completed-in' => 'Completed in',
-	'total-quiz-time' => 'Time on quizzes'
+	'total-quiz-time' => 'Time on quizzes',
+	'create-quiz' => 'Create quiz'
 ];

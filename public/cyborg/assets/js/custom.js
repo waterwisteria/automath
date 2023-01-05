@@ -7,6 +7,8 @@
 	{
 		$('#js-preloader').addClass('loaded');
 	});
+
+	dashboardChart();
 	
 	$(window).scroll(function()
 	{
@@ -64,68 +66,145 @@
 		});
 	});
 
-	/* --- Keeping for posterity... 
-		$('.owl-features').owlCarousel({
-			items:3,
-			loop:true,
-			dots: false,
-			nav: true,
-			autoplay: true,
-			margin:30,
-			responsive:{
-				0:{
-					items: 1
-				},
-				600:{
-					items: 2
-				},
-				1200:{
-					items: 3
-				},
-				1800:{
-					items: 3
-				}
-			}
-		});
+	/* --- Keeping for posterity because it works but dont need it... 
 		
-		$('.owl-collection').owlCarousel({
-			items:3,
-			loop:true,
-			dots: false,
-			nav: true,
-			autoplay: true,
-			margin:30,
-			responsive: {
-				0:{
-					items: 1
-				},
-				800:{
-					items: 2
-				},
-				1000:{
-					items: 3
-				}
-			}
-		});
-		
-		$('.owl-banner').owlCarousel({
-			items:1,
-			loop:true,
-			dots: false,
-			nav: true,
-			autoplay: true,
-			margin:30,
-			responsive:{
-				0:{
-					items: 1
-				},
-				600:{
-					items: 1
-				},
-				1000:{
-					items: 1
-				}
-			}
-		});
 	*/
 })(window.jQuery);
+
+/**
+* Set locale in cookie based on locale data attribute.
+*
+*/
+function setLocale(e)
+{
+	let locale = e.getAttribute('data-locale');
+	document.cookie = "Accept-Language=" + locale;
+	
+	return true;
+}
+
+function dashboardChart()
+{
+	const ctx = document.getElementById('myChart');
+	
+	if(!ctx)
+	{
+		return;
+	}
+	
+	Chart.defaults.color = '#e75e8d';
+	//Chart.defaults.backgroundColor = '#fff';
+	let lastQuizResults = $('#lastQuizResults').data('json');
+	let lastQuizUrls = $('#lastQuizUrls').data('json');
+	
+	let chart = new Chart(ctx,
+	{
+		type: 'bar',
+		data:
+		{
+			labels: Object.keys(lastQuizResults),
+			datasets:
+			[{
+				label: $(ctx).data('message'),
+				data: lastQuizResults,
+				borderWidth: 1
+			}]
+		},
+		options:
+		{
+			scales:
+			{
+				y:
+				{
+					beginAtZero: true
+				}
+			},
+			onClick: (e) =>
+			{
+				const canvasPosition = Chart.helpers.getRelativePosition(e, chart);
+				const dataX = chart.scales.x.getValueForPixel(canvasPosition.x);
+				
+				window.open(lastQuizUrls[dataX], '_self');
+			}
+		}
+	});
+}
+
+function runOwnCarousel()
+{
+	$('.owl-features').owlCarousel({
+		items:3,
+		loop:true,
+		dots: false,
+		nav: true,
+		autoplay: true,
+		margin:30,
+		responsive:
+		{
+			0:
+			{
+				items: 1
+			},
+			600:
+			{
+				items: 2
+			},
+			1200:
+			{
+				items: 3
+			},
+			1800:
+			{
+				items: 3
+			}
+		}
+	});
+	
+	$('.owl-collection').owlCarousel({
+		items:3,
+		loop:true,
+		dots: false,
+		nav: true,
+		autoplay: true,
+		margin:30,
+		responsive:
+		{
+			0:
+			{
+				items: 1
+			},
+			800:
+			{
+				items: 2
+			},
+			1000:
+			{
+				items: 3
+			}
+		}
+	});
+	
+	$('.owl-banner').owlCarousel({
+		items:1,
+		loop:true,
+		dots: false,
+		nav: true,
+		autoplay: true,
+		margin:30,
+		responsive:
+		{
+			0:
+			{
+				items: 1
+			},
+			600:
+			{
+				items: 1
+			},
+			1000:
+			{
+				items: 1
+			}
+		}
+	});
+}

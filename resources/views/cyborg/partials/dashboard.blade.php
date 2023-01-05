@@ -4,15 +4,15 @@
 		<div class="main-profile ">
 			<div class="row">
 				<div class="col-lg-4">
-					<canvas id="myChart"></canvas>
+					<canvas id="myChart" data-message="{{ __('Results') }}"></canvas>
 				</div>
 				<div class="col-lg-4 align-self-center">
 					<div class="main-info header-text">
 						<!-- span>Offline</span -->
 						<h4>{{ $user->name }}</h4>
-						<p>You Haven't Gone Live yet. Go Live By Touching The Button Below.</p>
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
 						<div class="main-border-button">
-							<a href="{{ route('profile.edit') }}">Create quiz</a>
+							<a href="{{ route('create.quiz') }}">{{ __('automath.create-quiz') }}</a>
 						</div>
 					</div>
 				</div>
@@ -20,7 +20,7 @@
 					<ul>
 						<li>{{ __('automath.quizzes-completed') }} <span>{{ $completedQuizzes }}</span></li>
 						<li>{{ __('automath.problems-answered') }} <span>{{ $questionsAnswered }}	</span></li>
-						<li>{{ __('automath.total-quiz-time') }} <span>{{ Carbon\CarbonInterval::seconds($totalQuizTime)->cascade()->forHumans()  ?? '' }}</span></li>
+						<li>{{ __('automath.total-quiz-time') }} <span>{{ Carbon\CarbonInterval::seconds($totalQuizTime)->cascade()->forHumans([ 'parts' => 1 ])  ?? '' }}</span></li>
 					</ul>
 				</div>
 			</div>
@@ -28,29 +28,7 @@
 	</div>
 </div>
 
-<script>
-	//Chart.defaults.backgroundColor = '#fff';
-	Chart.defaults.color = '#e75e8d';
-	
-	const ctx = document.getElementById('myChart');
-	
-	new Chart(ctx, {
-		type: 'bar',
-		data: {
-			labels: [ '{!! implode('\', \'', $lastQuizLabels) !!}' ],
-			datasets: [{
-				label: 'Quiz results',
-				data: [ {{ implode(', ', $lastQuizResults) }} ],
-				borderWidth: 1
-			}]
-		},
-		options: {
-			scales: {
-				y: {
-					beginAtZero: true
-				}
-			}
-		}
-	});
-</script>
+<div id="lastQuizResults" data-json='@json($lastQuizResults)'></div>
+<div id="lastQuizUrls" data-json='@json($lastQuizUrls)'></div>
+
 <!-- ***** Dashboard End ***** -->

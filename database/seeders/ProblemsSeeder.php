@@ -61,19 +61,15 @@ class ProblemsSeeder extends Seeder
         $user = User::create([
             'name' => 'potato',
             'email' => 'martin@prieto.live',
-            //'current_plan' => 1,
-            //'last_unit_completed' => 0,
             'password' => '$2y$10$8Kbf2uPDvWaftpwYbbDXPOJv1tfqiV24mC8w3weh1q8AAwtwH4gDO'
         ]);
-
-        $faker = \Faker\Factory::create('en_US');
 
         $lastMonth = time() - (86400 * 30);
         
         // Let's generate 10 completed quizzes and 2 pending...
         for($i = 0; $i <= 9; $i++)
         {
-            $quizzGen = new \App\Quiz\Generator($user, 'Arithmetic problems');
+            $quizzGen = new \App\Quiz\Generator($user, 'Simple arithmetic problems ' . $i + 1);
             $quizzGen->addProblemsRandomSolution(Problem::find(1), 20);
             $quizzGen->addProblemsRandomSolution(Problem::find(2), 15);
             $quizzGen->addProblemsRandomSolution(Problem::find(3), 10);
@@ -113,7 +109,7 @@ class ProblemsSeeder extends Seeder
         // ...2 pending
         for($i = 0; $i <= 1; $i++)
         {
-            $quizzGen = new \App\Quiz\Generator($user, 'Arithmetic problems');
+            $quizzGen = new \App\Quiz\Generator($user, 'My arithmetic problems ' . $i + 1);
             $quizzGen->addProblemsRandomSolution(Problem::find(1), 5);
             $quizzGen->addProblemsRandomSolution(Problem::find(2), 5);
             $quizzGen->addProblemsRandomSolution(Problem::find(3), 5);

@@ -1,8 +1,8 @@
 <?php
 namespace App\Http\Controllers\Automath;
-
 use Illuminate\Http\Request;
 
+// @TODO Delete and clean up...
 class ProblemsController extends \App\Http\Controllers\Controller
 {
 	public function home()

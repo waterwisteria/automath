@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 
 class HomepageController extends Controller
 {
-    public function home(Request $request)
+    public function home()
     {
         return view('cyborg/pages/home');
     }

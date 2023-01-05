@@ -18,34 +18,23 @@ class QuizController extends Controller
      */
     public const QUIZ_START_TIME = 'quiz_start_time';
 
-    public function quizzes()
-    {
-        $quizzes = Quiz::where('user_id', Auth::user()->id)->where('status', \App\Enums\QuizzStatus::Inprogress)->get();
-
-        return view('Automath/quizzes/quizzes', [
-            'quizzes' => $quizzes
-        ]);
-    }
-
     public function solveQuiz(Request $request, int $quizId)
     {
         $quiz = Quiz::find($quizId);
-
-        // Store quiz start time in session. If present already blank
-        // it out, previous quiz must have been abandoned.
-        $request->session()->put(self::QUIZ_START_TIME, time());
         
         // If the quiz exists, it must belong to current user.
-        if(($quiz->user_id ?? 0) !== Auth::user()->id)
+        if(($quiz->user_id ?? -1) !== Auth::user()->id)
         {
             return abort(404);
         }
 
-        $quizEntries = QuizEntry::where('quiz_id', $quizId)->whereNull('solution')->get();
+        // Store quiz start time in session. If present already blank
+        // it out, previous quiz was abandoned.
+        $request->session()->put(self::QUIZ_START_TIME, time());
 
         return view('Automath/quizzes/solveProblems', [
             'quiz' => $quiz,
-            'quizEntries' => $quizEntries,
+            'quizEntries' => $quiz->getUnansweredEntries(),
             'qst' => $request->session()->get(self::QUIZ_START_TIME, -1)
         ]);
     }
@@ -73,9 +62,8 @@ class QuizController extends Controller
             }
         }
 
-        $quizEntries = QuizEntry::where('quiz_id', $id)->whereNull('solution')->get();
         $quiz = Quiz::find($id);
-
+        $quizEntries = $quiz->getUnansweredEntries();
         
         // Compute time spent from quiz start time and store it in
         // model regardless of errors.
@@ -102,21 +90,20 @@ class QuizController extends Controller
     public function showQuizResults(int $id)
     {
         $quiz = Quiz::find($id);
-        $quizEntries = [ ];
 
-        if($quiz->status === QuizStatus::Completed->value)
-        {
-            $quizEntries = QuizEntry::where('quiz_id', $id)->whereNull('solution')->get();
-        }
-
-        else
+        if($quiz->status !== QuizStatus::Completed->value)
         {
             return redirect()->route('solve.quiz', [ 'id' => $quiz->id ]);
         }
 
         return view('Automath/quizzes/quizResults', [
             'quiz' => $quiz,
-            'quizEntries' => $quizEntries,
+            'quizEntries' => $quiz->getUnansweredEntries(),
         ]);
+    }
+
+    public function createQuiz()
+    {
+        return view('cyborg/quiz/create');
     }
 }

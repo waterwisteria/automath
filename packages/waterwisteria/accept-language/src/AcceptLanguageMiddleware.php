@@ -4,6 +4,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\App;
+use Carbon\CarbonInterval;
 
 class AcceptLanguageMiddleware
 {
@@ -11,7 +12,7 @@ class AcceptLanguageMiddleware
 	
 	public function handle(Request $request, Closure $next)
 	{
-		$acceptLanguages = Config::get('acceptlanguages')[self::ACCEPT_LANGUAGE_TOKEN] ?? null;
+		$acceptLanguages = Config::get('acceptlanguages.Accept-Language', null);
 
 		if(empty($acceptLanguages))
 		{
@@ -23,8 +24,8 @@ class AcceptLanguageMiddleware
 		
 		if(!empty($cookieLocale) && array_key_exists($cookieLocale, $acceptLanguages))
 		{
-			App::setLocale($cookieLocale);
-
+			$this->setLocale($cookieLocale);
+			
 			return $next($request);
 		}
 
@@ -33,7 +34,7 @@ class AcceptLanguageMiddleware
 
 		if(!empty($headerLocale) && array_key_exists($headerLocale, $acceptLanguages))
 		{
-			App::setLocale($headerLocale);
+			$this->setLocale($headerLocale);
 		}
 		
 		return $next($request);
@@ -52,5 +53,19 @@ class AcceptLanguageMiddleware
 		}
 
 		return $headerLocale;
+	}
+
+	protected function setLocale($locale) : void
+	{
+		// Carbon uses momentjs format among others...
+		// It only took me hours of paddling in random docs for this:
+		// https://momentjs.com/docs/#/displaying/format/
+		App::setLocale($locale);
+		\Carbon\Carbon::setLocale($locale);
+		CarbonInterval::setLocale($locale);
+		\Date::setLocale($locale);
+		$l = setlocale(LC_TIME, Config::get("acceptlanguages.locales.{$locale}", ''));
+
+		// if $l is false then setLocale failed.
 	}
 }

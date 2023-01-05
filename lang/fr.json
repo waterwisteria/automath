@@ -1,3 +1,8 @@
 {
-	"Welcome To Our Studio!" :  "Bienvenu!"
+	"Name": "Nom",
+	"Login": "Connection",
+	"Logout": "Déconnection",
+	"Profile": "Profile",
+	"Dashboard": "Tableau",
+	"Results": "Résultats"
 }

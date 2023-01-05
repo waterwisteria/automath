@@ -21,14 +21,21 @@
 
 					<!-- ***** Menu Start ***** -->
 					<ul class="nav">
-						<li><a href="/" class="active">Home</a></li>
+						@foreach($otherLocales as $key => $locale)
+						<li>
+							<a href="" data-locale="{{ $key }}" onclick="return setLocale(this)">
+								<i class="fa-solid fa-language"></i> {{ $locale }}
+							</a>
+						</li>
+						@endforeach
+						
 						@guest
-							<li><a href="/login">Login</a></li>
+							<li><a href="/login">{{ __('Login') }}</a></li>
 						@endguest
 						@auth
-							<li><a href="/logout">Logout</a></li>
-							<li><a href="/profile">Profile</a></li>
-							<li><a href="/dashboard">Dashboard <img src="/cyborg/assets/images/profile-header.jpg" alt=""></a></li>
+							<li><a href="/logout">{{ __('Logout') }}</a></li>
+							<li><a href="/profile">{{ __('Profile') }}</a></li>
+							<li><a href="/dashboard">{{ __('Dashboard') }} <img src="/cyborg/assets/images/profile-header.jpg" alt=""></a></li>
 						@endauth
 					</ul>
 					<a class="menu-trigger">
