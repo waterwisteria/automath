@@ -94,19 +94,18 @@ function dashboardChart()
 	
 	Chart.defaults.color = '#e75e8d';
 	//Chart.defaults.backgroundColor = '#fff';
-	let lastQuizResults = $('#lastQuizResults').data('json');
-	let lastQuizUrls = $('#lastQuizUrls').data('json');
+	let quizChartsData = $('#quizChartsData').data('json');
 	
 	let chart = new Chart(ctx,
 	{
 		type: 'bar',
 		data:
 		{
-			labels: Object.keys(lastQuizResults),
+			labels: Object.keys(quizChartsData.Results),
 			datasets:
 			[{
 				label: $(ctx).data('message'),
-				data: lastQuizResults,
+				data: quizChartsData.Results,
 				borderWidth: 1
 			}]
 		},
@@ -123,8 +122,8 @@ function dashboardChart()
 			{
 				const canvasPosition = Chart.helpers.getRelativePosition(e, chart);
 				const dataX = chart.scales.x.getValueForPixel(canvasPosition.x);
-				
-				window.open(lastQuizUrls[dataX], '_self');
+
+				window.open(quizChartsData.Urls[dataX], '_self');
 			}
 		}
 	});

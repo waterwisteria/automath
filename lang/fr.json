@@ -4,5 +4,15 @@
 	"Logout": "Déconnection",
 	"Profile": "Profile",
 	"Dashboard": "Tableau",
-	"Results": "Résultats"
+	"Results": "Résultats",
+	"<em>Your</em> profile": "<em>Votre</em> profile",
+	"Update your account's profile information and email address.": "Mettre à jours ses information de profile et addresse courriel.",
+	"Email": "courriel",
+	"Save": "Enregistrer",
+	"Saved": "Sauvegardé",
+	"<em>Update</em> Password": "<em>Changez</em> mot de passe",
+	"Ensure your account is using a long, random password to stay secure.": "Assurez-vous que votre mot de passe soit long et aléatoire afin de rester sécurisé.",
+	"Current Password": "Mot de passe actuel",
+	"New Password": "Nouveau mot de passe",
+	"Confirm Password": "Confirmez le mot de passe"
 }

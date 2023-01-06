@@ -28,7 +28,5 @@
 	</div>
 </div>
 
-<div id="lastQuizResults" data-json='@json($lastQuizResults)'></div>
-<div id="lastQuizUrls" data-json='@json($lastQuizUrls)'></div>
-
+<div id="quizChartsData" data-json='@json($quizChartsData)'></div>
 <!-- ***** Dashboard End ***** -->

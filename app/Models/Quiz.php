@@ -60,6 +60,12 @@ class Quiz extends Model
 		return ($questionsAnswered / $totalQuestions) * 100;
 	}
 
+	/**
+	 * Set quiz as completed if all questions are answered.
+	 * 
+	 * @return bool
+
+	 */
 	public function close() : bool
 	{
 		$scoreSoFar = 0;
@@ -108,9 +114,16 @@ class Quiz extends Model
 	 * @return Builder
 	 * 
 	 */
-	public static function getByUserState(User $user, QuizStatus $quizStatus = QuizStatus::Completed) : Builder
+	public static function getByUserState(User $user, ?QuizStatus $quizStatus = null) : Builder
 	{
-		return self::where('user_id', $user->id)->where('status', $quizStatus);
+		$builder = self::where('user_id', $user->id);
+
+		if($quizStatus)
+		{
+			$builder->where('status', $quizStatus);
+		}
+		
+		return $builder;
 	}
 
 	public static function getUserAnsweredQuestionsCount(User $user) : int

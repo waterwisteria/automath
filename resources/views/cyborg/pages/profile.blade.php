@@ -2,15 +2,15 @@
 
 @section('page')
 	<div class="row">
-		<div class="col-lg-12">
+		<div class="col-lg-6">
 			<div class="main-profile ">
-				<div class="heading-section">
-					<h4><em>Your profile</em></h4>
-				</div>
-
-				<div>
-
-				</div>
+				@include('cyborg/partials/profile/update-profile-information-form')
+			</div>
+		</div>
+	
+		<div class="col-lg-6">
+			<div class="main-profile ">
+				@include('cyborg/partials/profile/update-password-form')
 			</div>
 		</div>
 	</div>

@@ -68,8 +68,6 @@ body {
 			</div>
 			
 			<button class="w-100 btn btn-lg btn-primary" type="submit">{{ __('Log in') }}</button>
-
-			
 		</form>
 	</div>
 </main>

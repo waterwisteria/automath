@@ -45,10 +45,11 @@ class QuizController extends Controller
             'solution.*' => 'nullable|integer'
         ]);
 
+        // @TODO Move to service class
         // We allow not answering problems. They must be left empty,
         // the validator will return null for those cases. Everything
         // else gets graded and becomes immutable.
-        if(isset($validated['solution']) && is_array($validated['solution']))
+        if(isset($validated['solution']))
         {
             foreach($validated['solution'] as $quizEntryId => $solution)
             {
@@ -64,7 +65,8 @@ class QuizController extends Controller
 
         $quiz = Quiz::find($id);
         $quizEntries = $quiz->getUnansweredEntries();
-        
+
+        // @TODO Move to service class
         // Compute time spent from quiz start time and store it in
         // model regardless of errors.
         $quiz->time_spent += time() - $request->session()->get(self::QUIZ_START_TIME, time());
