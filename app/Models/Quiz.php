@@ -105,8 +105,25 @@ class Quiz extends Model
 		return $this->finalScore;
 	}
 
+	public function gradeSolutions(array $solutions) : void
+	{
+		foreach($solutions as $quizEntryId => $solution)
+		{
+			// We allow not answering problems. They must be left empty,
+			// the validator will return null for those cases. Everything
+			// else gets graded and becomes immutable.
+			if($solution !== null)
+			{
+				// Grade solution
+				$quizEntry = QuizEntry::find($quizEntryId);
+				$quizEntry->grade($solution);
+				$quizEntry->save();
+			}
+		}
+	}
+
 	/**
-	 * Get by user AND state.
+	 * Get by user AND (optionally) by quiz state.
 	 * 
 	 * @param User $user
 	 * @param QuizStatus $quizStatus

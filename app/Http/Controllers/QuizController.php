@@ -5,20 +5,14 @@ use App\Models\Problem;
 use App\Models\Quiz;
 use App\Models\QuizEntry;
 use App\Enums\QuizStatus;
-use Automath\LearnUnits;
-use Automath\QuizzGenerator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Http\Requests\QuizSolutionRequest;
+use App\Quiz\TimeSpentService;
 
 class QuizController extends Controller
 {
-    /**
-     * At what time the quiz was started.
-     * 
-     */
-    public const QUIZ_START_TIME = 'quiz_start_time';
-
-    public function solveQuiz(Request $request, int $quizId)
+    public function solveQuiz(Request $request, TimeSpentService $quizTimeSpent, int $quizId)
     {
         $quiz = Quiz::find($quizId);
         
@@ -28,49 +22,23 @@ class QuizController extends Controller
             return abort(404);
         }
 
-        // Store quiz start time in session. If present already blank
-        // it out, previous quiz was abandoned.
-        $request->session()->put(self::QUIZ_START_TIME, time());
+        $quizTimeSpent->start($request);
 
         return view('Automath/quizzes/solveProblems', [
             'quiz' => $quiz,
-            'quizEntries' => $quiz->getUnansweredEntries(),
-            'qst' => $request->session()->get(self::QUIZ_START_TIME, -1)
+            'quizEntries' => $quiz->getUnansweredEntries()
         ]);
     }
 
-    public function postQuiz(Request $request, int $id)
+    public function postQuiz(QuizSolutionRequest $quizSolutionRequest, TimeSpentService $quizTimeSpent, int $id)
     {
-        $validated = $request->validate([
-            'solution.*' => 'nullable|integer'
-        ]);
-
-        // @TODO Move to service class
-        // We allow not answering problems. They must be left empty,
-        // the validator will return null for those cases. Everything
-        // else gets graded and becomes immutable.
-        if(isset($validated['solution']))
-        {
-            foreach($validated['solution'] as $quizEntryId => $solution)
-            {
-                if($solution !== null)
-                {
-                    // Grade solution
-                    $quizEntry = QuizEntry::find($quizEntryId);
-                    $quizEntry->grade($solution);
-                    $quizEntry->save();
-                }
-            }
-        }
-
         $quiz = Quiz::find($id);
-        $quizEntries = $quiz->getUnansweredEntries();
+        
+        $quiz->gradeSolutions($quizSolutionRequest->validated()['solution']);
+        
+        $quizTimeSpent->reset($quizSolutionRequest, $quiz);
 
-        // @TODO Move to service class
-        // Compute time spent from quiz start time and store it in
-        // model regardless of errors.
-        $quiz->time_spent += time() - $request->session()->get(self::QUIZ_START_TIME, time());
-        $request->session()->put(self::QUIZ_START_TIME, time());
+        $quizEntries = $quiz->getUnansweredEntries();
 
         if(count($quizEntries) === 0)
         {
@@ -80,12 +48,12 @@ class QuizController extends Controller
             return redirect()->route('result.quiz', [ 'id' => $quiz->id ]);
         }
 
+        // $quiz->time_spent was modified so save it
         $quiz->save();
 
         return view('Automath/quizzes/solveProblems', [
             'quiz' => $quiz,
-            'quizEntries' => $quizEntries,
-            'qst' => $request->session()->get(self::QUIZ_START_TIME, -1)
+            'quizEntries' => $quizEntries
         ]);
     }
 

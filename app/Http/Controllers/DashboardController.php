@@ -6,7 +6,7 @@ use App\Models\Quiz;
 use App\Models\QuizEntry;
 use App\Models\User;
 use \App\Enums\QuizStatus;
-
+// 011 54 9 2262 359955
 class DashboardController extends Controller
 {
     public function dashboard()
@@ -35,8 +35,8 @@ class DashboardController extends Controller
         }
 
         return [
-            'Results' => $lastQuizResults,
-            'Urls' => $lastQuizUrls
+            'Results' => array_reverse($lastQuizResults),
+            'Urls' => array_reverse($lastQuizUrls)
         ];
     }
 }
