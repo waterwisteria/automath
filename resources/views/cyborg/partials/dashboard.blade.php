@@ -4,7 +4,12 @@
 		<div class="main-profile ">
 			<div class="row">
 				<div class="col-lg-4">
-					<canvas id="myChart" data-message="{{ __('Results') }}"></canvas>
+					@if(!empty($quizChartsData))
+						<div id="quizChartsData" data-json='@json($quizChartsData)'></div>
+						<canvas id="myChart" data-message="{{ __('Results') }}"></canvas>
+					@else
+						<img src="/cyborg/assets/images/profile.jpg" alt="" style="border-radius: 23px;">
+					@endif
 				</div>
 				<div class="col-lg-4 align-self-center">
 					<div class="main-info header-text">
@@ -27,6 +32,4 @@
 		</div>
 	</div>
 </div>
-
-<div id="quizChartsData" data-json='@json($quizChartsData)'></div>
 <!-- ***** Dashboard End ***** -->

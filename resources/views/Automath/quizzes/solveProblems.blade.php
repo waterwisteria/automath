@@ -7,7 +7,7 @@
 		<div class="start-stream">
 			<div class="col-lg-12">
 				<div class="heading-section">
-					<h4>{{ $quiz->title }} <em>{{ $quiz->questionsAnswered() }}/{{ $quiz->quizEntries->count() }}</em></h4>
+					<h4>{{ $quiz->title }} <em>{{ $questionsAnswered }}/{{ $quiz->quizEntries->count() }}</em></h4>
 				</div>
 				<div class="row quiz-entries">
 					@foreach($quizEntries as $entry)

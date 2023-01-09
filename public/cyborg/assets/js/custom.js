@@ -1,7 +1,9 @@
+let lastDashboardBestQuizzesPage = 1;
+
 (function($)
 {
 	"use strict";
-	
+
 	// Page loading animation
 	$(window).on('load', function()
 	{
@@ -9,6 +11,7 @@
 	});
 
 	dashboardChart();
+	dashboardMoreBestQuizzesButton();
 	
 	$(window).scroll(function()
 	{
@@ -127,6 +130,40 @@ function dashboardChart()
 			}
 		}
 	});
+}
+
+function dashboardMoreBestQuizzesButton()
+{
+	let $mainButtonAnchor = $('.main-button-container').find('a');
+	let ajaxMoreBestQuizRoute = $('#ajax-more-best-quizzes-route').data('route');
+	let bestQuizzesPerPage = $('#ajax-more-best-quizzes-route').data('best_quizzes_per_page');
+
+	if(ajaxMoreBestQuizRoute && $mainButtonAnchor.length && bestQuizzesPerPage)
+	{
+		$mainButtonAnchor.click(function()
+		{
+			let jqXHR = $.get(
+				ajaxMoreBestQuizRoute,
+				{
+					'page':  ++lastDashboardBestQuizzesPage
+				}
+			);
+
+			jqXHR.done(function(data)
+			{
+				let $bestQuizzes = $($.parseHTML(data)).find('.item');
+				
+				$(data).insertBefore('.main-button-container');
+				
+				if($bestQuizzes.length < bestQuizzesPerPage)
+				{
+					$('.main-button-container').remove();
+				}
+			});
+
+			return false;
+		});
+	}
 }
 
 function runOwnCarousel()

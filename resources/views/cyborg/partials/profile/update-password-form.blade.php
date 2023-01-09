@@ -9,19 +9,19 @@
 
     <div>
         <label for="current_password" class="w form-label">{{ __('Current Password') }}</label>
-        <input id="current_password" name="current_password" type="password" class="mt-1 form-control" autocomplete="current-password" />
+        <input id="current_password" name="current_password" type="password" class="mt-1 form-control" autocomplete="current-password">
         <x-input-error :messages="$errors->updatePassword->get('current_password')" class="mt-3" />
     </div>
 
     <div class="mt-2">
         <label for="password" class="w form-label">{{ __('New Password') }}</label>
-        <input id="password" name="password" type="password" class="mt-1 form-control" autocomplete="new-password" />
+        <input id="password" name="password" type="password" class="mt-1 form-control" autocomplete="new-password">
         <x-input-error :messages="$errors->updatePassword->get('password')" class="mt-3" />
     </div>
 
     <div class="mt-2">
         <label for="password_confirmation" class="w form-label">{{ __('Confirm Password') }}</label>
-        <input id="password_confirmation" name="password_confirmation" type="password" class="mt-1 form-control" autocomplete="new-password" />
+        <input id="password_confirmation" name="password_confirmation" type="password" class="mt-1 form-control" autocomplete="new-password">
         <x-input-error :messages="$errors->updatePassword->get('password_confirmation')" class="mt-3" />
     </div>
 

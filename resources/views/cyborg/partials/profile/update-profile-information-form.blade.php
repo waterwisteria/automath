@@ -19,7 +19,7 @@
 
     <div>
         <label for="email" class="mt-2 w form-label">{{ __('Email') }}</label>
-        <input id="email" name="email" type="email" class="form-control" value="{{ old('email', $user->email) }}" required autocomplete="email" />
+        <input id="email" name="email" type="email" class="form-control" value="{{ old('email', $user->email) }}" required autocomplete="email">
         <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
         @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())

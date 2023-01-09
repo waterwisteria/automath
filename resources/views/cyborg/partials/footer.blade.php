@@ -2,7 +2,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12">
-				<p>Copyright © {{ date('Y') }} <a href="/">Automath</a> Company. All rights reserved.
+				<p>Copyright © {{ date('Y') }} <a href="/">The Automath Cyborg Company</a>. All rights reserved.
 			</div>
 		</div>
 	</div>

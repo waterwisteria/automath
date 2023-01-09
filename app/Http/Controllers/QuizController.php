@@ -26,7 +26,8 @@ class QuizController extends Controller
 
         return view('Automath/quizzes/solveProblems', [
             'quiz' => $quiz,
-            'quizEntries' => $quiz->getUnansweredEntries()
+            'quizEntries' => $quiz->scopeUnansweredEntries()->get(),
+            'questionsAnswered' => $quiz->scopeUnansweredEntries()->count()
         ]);
     }
 
@@ -68,7 +69,7 @@ class QuizController extends Controller
 
         return view('Automath/quizzes/quizResults', [
             'quiz' => $quiz,
-            'quizEntries' => $quiz->getUnansweredEntries(),
+            'quizEntries' => $quiz->scopeAnsweredEntries()->get(),
         ]);
     }
 

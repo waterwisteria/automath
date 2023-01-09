@@ -24,24 +24,14 @@ class Quiz extends Model
 		return $this->hasMany(QuizEntry::class);
 	}
 
-	public function getUnansweredEntries() : Collection
+	public function scopeUnansweredEntries() : Builder
 	{
-		return QuizEntry::where('quiz_id', $this->id)->whereNull('solution')->get();
+		return QuizEntry::where('quiz_id', $this->id)->whereNull('solution');
 	}
 
-	public function questionsAnswered() : int
+	public function scopeAnsweredEntries() : Builder
 	{
-		$questionsAnswered = 0;
-		
-		foreach($this->quizEntries as $quizEntry)
-		{
-			if($quizEntry->solution !== null)
-			{
-				$questionsAnswered++;
-			}
-		}
-
-		return $questionsAnswered;
+		return QuizEntry::where('quiz_id', $this->id)->whereNotNull('solution');
 	}
 
 	public function percentCompleted() : float
@@ -122,6 +112,16 @@ class Quiz extends Model
 		}
 	}
 
+	public static function scopeBestQuizzes(User $user) : Builder
+	{
+		return Quiz::scopeByUserState($user, QuizStatus::Completed)->orderBy('score', 'desc')->take(config('automath.best_quizzes_per_page'));
+	}
+
+	public static function scopePendingQuizzes(User $user, int $take = 5) : Builder
+	{
+		return Quiz::scopeByUserState($user, QuizStatus::Inprogress)->latest()->take($take);
+	}
+
 	/**
 	 * Get by user AND (optionally) by quiz state.
 	 * 
@@ -131,7 +131,7 @@ class Quiz extends Model
 	 * @return Builder
 	 * 
 	 */
-	public static function getByUserState(User $user, ?QuizStatus $quizStatus = null) : Builder
+	public static function scopeByUserState(User $user, ?QuizStatus $quizStatus = null) : Builder
 	{
 		$builder = self::where('user_id', $user->id);
 
@@ -143,11 +143,10 @@ class Quiz extends Model
 		return $builder;
 	}
 
-	public static function getUserAnsweredQuestionsCount(User $user) : int
+	public static function scopeUserAnsweredQuestions(User $user) : Builder
 	{
-		return self::join('quiz_entries', 'quizzes.id', '=', 'quiz_entries.quiz_id')
-			->whereNotNull('quiz_entries.solution')
-			->where('quizzes.user_id', $user->id)
-			->count();
+		return self::scopeByUserState($user)
+			->join('quiz_entries', 'quizzes.id', '=', 'quiz_entries.quiz_id')
+			->whereNotNull('quiz_entries.solution');
 	}
 }

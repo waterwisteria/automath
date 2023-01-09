@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\App;
 use Carbon\CarbonInterval;
+use Carbon\Carbon;
+use Date;
 
 class AcceptLanguageMiddleware
 {
@@ -61,9 +63,9 @@ class AcceptLanguageMiddleware
 		// It only took me hours of paddling in random docs for this:
 		// https://momentjs.com/docs/#/displaying/format/
 		App::setLocale($locale);
-		\Carbon\Carbon::setLocale($locale);
+		Carbon::setLocale($locale);
 		CarbonInterval::setLocale($locale);
-		\Date::setLocale($locale);
+		Date::setLocale($locale);
 		$l = setlocale(LC_TIME, Config::get("acceptlanguages.locales.{$locale}", ''));
 
 		// if $l is false then setLocale failed.

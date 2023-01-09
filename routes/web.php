@@ -19,6 +19,7 @@ Route::middleware('auth')->group(function()
     Route::get('/quiz/{id}', [ App\Http\Controllers\QuizController::class, 'solveQuiz' ])->name('solve.quiz');
     Route::post('/quiz/{id}', [ App\Http\Controllers\QuizController::class, 'postQuiz' ])->name('post.quiz');
     Route::get('/quiz/results/{id}', [ App\Http\Controllers\QuizController::class, 'showQuizResults' ])->name('result.quiz');
+    Route::get('/ajax/best-quizzes', [ App\Http\Controllers\DashboardController::class, 'ajaxMoreBestQuizzes' ])->name('ajax.more.best.quizzes');
 });
 
 Route::get('/', [ App\Http\Controllers\HomepageController::class, 'home' ]);

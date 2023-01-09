@@ -5,7 +5,7 @@
 			<h4>{!! __('automath.your-pending-quizzes') !!}</h4>
 		</div>
 
-		@foreach($pendingQuizzes as $quiz)
+		@forelse($pendingQuizzes as $quiz)
 			<div class="item">
 				<ul>
 					<li><img src="/cyborg/assets/images/stream-0{{ rand(1, 8) }}.jpg" alt="" class="templatemo-item"></li>
@@ -16,7 +16,12 @@
 					<li><div class="main-border-button"><a href="{{ route('solve.quiz', [ 'id' => $quiz->id ]) }}">Quiz</a></div></li>
 				</ul>
 			</div>
-		@endforeach
+		@empty
+			<div class="item">
+				<p class="text-center">{!! __('You have no pending quizzes. <a href=":url">Create one</a>.', [ 'url' => route('create.quiz') ]) !!}</p>
+			</div>
+		@endforelse
+		
 	</div>
 </div>
 <!-- ***** Gaming Library End ***** -->

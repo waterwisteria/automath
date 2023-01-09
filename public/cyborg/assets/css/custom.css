@@ -25,3 +25,14 @@
 {
 	margin-bottom: 2em;
 }
+
+.main-button-container
+{
+	margin-bottom: 1em;
+}
+
+.other-games .main-button
+{
+	text-align: center;
+	margin-top: -53px;
+}

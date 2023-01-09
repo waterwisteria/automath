@@ -14,5 +14,8 @@
 	"Ensure your account is using a long, random password to stay secure.": "Assurez-vous que votre mot de passe soit long et aléatoire afin de rester sécurisé.",
 	"Current Password": "Mot de passe actuel",
 	"New Password": "Nouveau mot de passe",
-	"Confirm Password": "Confirmez le mot de passe"
+	"Confirm Password": "Confirmez le mot de passe",
+	"You have no pending quizzes. <a href=\":url\">Create one</a>.": "Tu n'a pas de quiz en attente, <a href=\":url\">crée en un</a>!",
+	"You have no best quiz! <a href=\":url\">Create a quiz</a> and start ranking.": "Tu n'a pas de meilleurs quiz, <a href=\":url\">créé en un</a> et commence à te surpasser!",
+	"Show more quizzes": "Afficher plus de quiz"
 }
