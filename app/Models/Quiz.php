@@ -39,6 +39,12 @@ class Quiz extends Model
 		$questionsAnswered = 0;
 		$totalQuestions = $this->quizEntries->count();
 
+		if($totalQuestions === 0)
+		{
+			// @TODO Log warning
+			return 0.0;
+		}
+		
 		foreach($this->quizEntries as $quizEntry)
 		{
 			if($quizEntry->solution !== null)

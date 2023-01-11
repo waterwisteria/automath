@@ -8,7 +8,9 @@ use App\Enums\QuizStatus;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\QuizSolutionRequest;
+use App\Http\Requests\CreateQuizRequest;
 use App\Quiz\TimeSpentService;
+use App\Quiz\Generator;
 
 class QuizController extends Controller
 {
@@ -79,5 +81,19 @@ class QuizController extends Controller
         [
             'problems' => Problem::all()
         ]);
+    }
+
+    public function postCreateQuiz(CreateQuizRequest $createQuizRequest)
+    {
+        $quizProblems = $createQuizRequest->validated();
+
+        $quizGenerator = new Generator(Auth::user(), $quizProblems['title']);
+
+        foreach($quizProblems['problem'] as $id => $quantity)
+        {
+            $quizGenerator->addProblemsRandomSolution(Problem::find($id), $quantity);
+        }
+
+        return redirect()->route('solve.quiz', [ 'id' => $quizGenerator->getQuiz()->id ]);
     }
 }
