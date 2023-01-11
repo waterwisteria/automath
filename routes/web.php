@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/', [ App\Http\Controllers\HomepageController::class, 'home' ]);
 
+
 Route::middleware(['auth', 'verified'])->group(function()
 {
     Route::get('/quizzes', [ App\Http\Controllers\QuizController::class, 'quizzes' ]);

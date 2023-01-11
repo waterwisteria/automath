@@ -18,7 +18,6 @@
 								class="form-control"
 								id="title"
 								name="title"
-								min="-50"
 								value="{{ old('title', __('My quiz')) }}"
 							>
 						</div>
@@ -36,7 +35,7 @@
 									class="form-control"
 									id="problem[{{ $problem->id }}]"
 									name="problem[{{ $problem->id }}]"
-									min="-50"
+									min="5"
 									value="{{ old($problemName, 5) }}"
 								>
 							</div>
