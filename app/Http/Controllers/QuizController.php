@@ -75,6 +75,9 @@ class QuizController extends Controller
 
     public function createQuiz()
     {
-        return view('cyborg/quiz/create');
+        return view('cyborg/quiz/create',
+        [
+            'problems' => Problem::all()
+        ]);
     }
 }

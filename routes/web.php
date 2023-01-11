@@ -12,19 +12,20 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', [ App\Http\Controllers\HomepageController::class, 'home' ]);
 
-Route::middleware('auth')->group(function()
+Route::middleware(['auth', 'verified'])->group(function()
 {
     Route::get('/quizzes', [ App\Http\Controllers\QuizController::class, 'quizzes' ]);
     Route::get('/quiz/{id}', [ App\Http\Controllers\QuizController::class, 'solveQuiz' ])->name('solve.quiz');
     Route::post('/quiz/{id}', [ App\Http\Controllers\QuizController::class, 'postQuiz' ])->name('post.quiz');
     Route::get('/quiz/results/{id}', [ App\Http\Controllers\QuizController::class, 'showQuizResults' ])->name('result.quiz');
     Route::get('/ajax/best-quizzes', [ App\Http\Controllers\DashboardController::class, 'ajaxMoreBestQuizzes' ])->name('ajax.more.best.quizzes');
+    Route::get('/dashboard', [ App\Http\Controllers\DashboardController::class, 'dashboard' ])->name('dashboard');
+    Route::get('/create-quiz', [ App\Http\Controllers\QuizController::class, 'createQuiz' ])->name('create.quiz');
+    Route::post('/create-quiz', [ App\Http\Controllers\QuizController::class, 'postCreateQuiz' ])->name('post.create.quiz');
 });
 
-Route::get('/', [ App\Http\Controllers\HomepageController::class, 'home' ]);
-Route::get('/dashboard', [ App\Http\Controllers\DashboardController::class, 'dashboard' ])->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('/create-quiz', [ App\Http\Controllers\QuizController::class, 'createQuiz' ])->middleware(['auth', 'verified'])->name('create.quiz');
 
 // @TODO Clean up old controlers, delete...
 Route::get('/learn/unit/{slug}', [ App\Http\Controllers\PracticeController::class, 'learnUnitNow' ])->name('learn.unit');

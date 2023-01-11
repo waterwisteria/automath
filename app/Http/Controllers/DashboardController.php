@@ -2,11 +2,11 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Quiz;
 use App\Models\QuizEntry;
+use App\Models\Quiz;
 use App\Models\User;
-use \App\Enums\QuizStatus;
-// 011 54 9 2262 35 9955
+use App\Enums\QuizStatus;
+
 class DashboardController extends Controller
 {
     public function dashboard()
