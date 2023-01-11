@@ -25,13 +25,21 @@ return new class extends Migration
         Schema::create('problems', function (Blueprint $table) {
             $table->id();
             $table->integer('problem_definition_id')->unsigned();
-            $table->string('description', 100);
             $table->integer('problems')->unsigned();
             $table->integer('target_score')->unsigned();
             $table->integer('target_time')->unsigned();
             $table->string('instigator_params', 256);
             $table->timestamps();
             $table->comment('Problems adjusted for skills');
+        });
+
+        Schema::create('problem_translations', function(Blueprint $table) {
+            $table->id();
+            $table->bigInteger('problem_id')->unsigned();
+            $table->string('locale')->index();
+            $table->string('description', 100);
+            $table->unique([ 'problem_id', 'locale' ]);
+            $table->foreign('problem_id')->references('id')->on('problems')->onDelete('cascade');
         });
 
         Schema::create('quizzes', function(Blueprint $table) {
@@ -65,6 +73,7 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('problem_definitions');
+        Schema::dropIfExists('problem_translations');
         Schema::dropIfExists('problems');
         Schema::dropIfExists('quizzes');
         Schema::dropIfExists('quiz_entries');
