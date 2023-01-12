@@ -33,7 +33,8 @@ class ProblemsSeeder extends Seeder
 
         Problem::create([
             'problem_definition_id' => $pda->id,
-            'description' => 'addition single digit terms',
+            'description:en' => 'addition single digit terms',
+            'description:fr' => 'additions de termes simples',
             'problems' => 10,
             'target_score' => 90,
             'target_time' => 1440,
@@ -42,7 +43,8 @@ class ProblemsSeeder extends Seeder
 
         Problem::create([
             'problem_definition_id' => $pda->id,
-            'description' => 'addition double digit terms',
+            'description:en' => 'addition double digit terms',
+            'description:fr' => 'additions de termes doubles',
             'problems' => 10,
             'target_score' => 90,
             'target_time' => 1440,
@@ -51,20 +53,16 @@ class ProblemsSeeder extends Seeder
 
         Problem::create([
             'problem_definition_id' => $pds->id,
-            'description' => 'substraction single digit terms, biggest first',
+            'description:en' => 'substraction single digit terms, positive results',
+            'description:fr' => 'soustractions de termes simple, résultats positifs',
             'problems' => 10,
             'target_score' => 90,
             'target_time' => 1440,
             'instigator_params' => [ 'aRange' => [ 1, 10 ], 'bRange' => [ 1, 10 ], 'biggestTermFirst' => true ]
         ]);
 
-        $user = User::create([
-            'name' => 'potato',
-            'email' => 'martin@prieto.live',
-            'password' => '$2y$10$8Kbf2uPDvWaftpwYbbDXPOJv1tfqiV24mC8w3weh1q8AAwtwH4gDO'
-        ]);
-
         $lastMonth = time() - (86400 * 30);
+        $user = User::find(1);
         
         // Let's generate 10 completed quizzes and 2 pending...
         for($i = 0; $i <= 9; $i++)
@@ -96,12 +94,6 @@ class ProblemsSeeder extends Seeder
 
             $quizzGen->getQuiz()->time_spent = rand(60, 300);
             $quizzGen->getQuiz()->close();
-            $quizzGen->getQuiz()->save();
-
-            // We want to fake the updated_at field but it's only possible
-            // to do so when setting timestamps off in save. Which we
-            // want in the first case for created_at. So a double save :|...
-            // It's just a seeder for dev.
             $quizzGen->getQuiz()->created_at = date('Y-m-d H:i:s', $lastMonth += 86400 );
             $quizzGen->getQuiz()->save([ 'timestamps' => false ]);
         }

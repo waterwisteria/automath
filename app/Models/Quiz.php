@@ -60,7 +60,7 @@ class Quiz extends Model
 	 * Set quiz as completed if all questions are answered.
 	 * 
 	 * @return bool
-
+	 * 
 	 */
 	public function close() : bool
 	{

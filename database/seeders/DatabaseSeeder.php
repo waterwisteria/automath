@@ -1,8 +1,7 @@
 <?php
 namespace Database\Seeders;
-
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\User;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,7 +12,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        //$this->call(\Database\Seeders\PlansSeeder::class);
+        User::create([
+            'name' => 'demo',
+            'email' => 'demo@demo',
+            'password' => '$2y$10$8Kbf2uPDvWaftpwYbbDXPOJv1tfqiV24mC8w3weh1q8AAwtwH4gDO'
+        ]);
+
         $this->call(\Database\Seeders\ProblemsSeeder::class);
     }
 }

@@ -47,7 +47,7 @@ return new class extends Migration
             $table->integer('user_id')->unsigned();
             $table->string('title');
             $table->string('status', 16);
-            $table->integer('score')->unsigned()->nullable(); // 6789 / 100 = 67.89%
+            $table->integer('score')->unsigned()->nullable();
             $table->integer('time_spent')->unsigned()->default(0);
             $table->timestamps();
             $table->comment('Individual quiz');
@@ -69,6 +69,7 @@ return new class extends Migration
      * Reverse the migrations.
      *
      * @return void
+     * 
      */
     public function down()
     {

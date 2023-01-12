@@ -16,17 +16,15 @@ class Generator
 {
 	protected array $problems = [ ];
 	protected User $user;
-	protected string $title;
 	protected Quiz $quiz;
 	
 	public function __construct(User $user, string $title)
 	{
 		$this->user = $user;
-		$this->title = $title;
 
 		$this->quiz = new Quiz();
 		$this->quiz->user_id = $this->user->id;
-		$this->quiz->title = $this->title;
+		$this->quiz->title = $title;
 		$this->quiz->status = QuizStatus::Inprogress;
 		$this->quiz->save();
 	}
@@ -41,10 +39,7 @@ class Generator
 		return $this->quiz;
 	}
 	
-	/**
-	 * Add problems with a random solution.
-	 * 
-	 */
+	
 	public function addProblemsRandomSolution(Problem $problem, int $amount) : void
 	{
 		for($i = 1; $i <= $amount; $i++)
@@ -53,6 +48,10 @@ class Generator
 		}
 	}
 
+	/**
+	* Generate a problem with a random solution.
+	*
+	*/
 	public static function generateRandomQuizEntry(Quiz $quiz, Problem $problem) : QuizEntry
 	{
 		$instigator = self::generateInstigator($problem);
