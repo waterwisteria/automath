@@ -6,7 +6,7 @@
 				<h6>{{ __('automath.welcome') }}</h6>
 				<h4>{{ __('automath.surpass') }}</h4>
 				<div class="main-button">
-					<a href="cyborg/browse">{{ __('automath.start-practice') }}</a>
+					<a href="{{ route('practice') }}">{{ __('automath.start-practice') }}</a>
 				</div>
 			</div>
 		</div>

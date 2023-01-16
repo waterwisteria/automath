@@ -35,7 +35,7 @@
 									class="form-control"
 									id="problem[{{ $problem->id }}]"
 									name="problem[{{ $problem->id }}]"
-									min="5"
+									min="0"
 									value="{{ old($problemName, 5) }}"
 								>
 							</div>

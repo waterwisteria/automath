@@ -13,10 +13,15 @@ class BladeHelper
 	 * @return string
 	 * 
 	 */
-	public static function shortDate(Carbon $date) : string
+	public static function shortDate(Carbon $date, bool $lowerCase = false) : string
 	{
 		$formatedDate = $date->isoFormat('ll');
 
+		if($lowerCase)
+		{
+			$formatedDate = strtolower($formatedDate);
+		}
+		
 		return substr($formatedDate, 0, strlen($formatedDate) - 6);
 	}
 	

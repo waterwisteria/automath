@@ -25,6 +25,7 @@ Route::middleware(['auth', 'verified'])->group(function()
     Route::get('/dashboard', [ App\Http\Controllers\DashboardController::class, 'dashboard' ])->name('dashboard');
     Route::get('/create-quiz', [ App\Http\Controllers\QuizController::class, 'createQuiz' ])->name('create.quiz');
     Route::post('/create-quiz', [ App\Http\Controllers\QuizController::class, 'postCreateQuiz' ])->name('post.create.quiz');
+    Route::get('/practice', [ App\Http\Controllers\PracticeController::class, 'practice' ])->name('practice');
 });
 
 

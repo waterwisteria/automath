@@ -29,7 +29,8 @@ class QuizController extends Controller
         return view('Automath/quizzes/solveProblems', [
             'quiz' => $quiz,
             'quizEntries' => $quiz->scopeUnansweredEntries()->get(),
-            'questionsAnswered' => $quiz->scopeUnansweredEntries()->count()
+            'questionsAnswered' => $quiz->scopeAnsweredEntries()->count(),
+            'quizEntriesCount' => $quiz->quizEntries->count()
         ]);
     }
 
@@ -41,9 +42,7 @@ class QuizController extends Controller
         
         $quizTimeSpent->reset($quizSolutionRequest, $quiz);
 
-        $quizEntries = $quiz->getUnansweredEntries();
-
-        if(count($quizEntries) === 0)
+        if($quiz->scopeUnansweredEntries()->count() === 0)
         {
             $quiz->close();
             $quiz->save();
@@ -54,10 +53,7 @@ class QuizController extends Controller
         // $quiz->time_spent was modified so save it
         $quiz->save();
 
-        return view('Automath/quizzes/solveProblems', [
-            'quiz' => $quiz,
-            'quizEntries' => $quizEntries
-        ]);
+        return redirect()->route('solve.quiz', [ 'id' => $quiz->id ]);
     }
 
     public function showQuizResults(int $id)
@@ -71,7 +67,7 @@ class QuizController extends Controller
 
         return view('Automath/quizzes/quizResults', [
             'quiz' => $quiz,
-            'quizEntries' => $quiz->scopeAnsweredEntries()->get(),
+            'quizEntries' => $quiz->entries,
         ]);
     }
 

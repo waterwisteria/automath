@@ -22,7 +22,7 @@
         <input id="email" name="email" type="email" class="form-control" value="{{ old('email', $user->email) }}" required autocomplete="email">
         <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
-        @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
+        @if($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
             <div>
                 <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">
                     Your email address is unverified.
@@ -42,7 +42,7 @@
     </div>
 
     <div class="flex items-center gap-4">
-        <button class="mt-4 btn btn-lg btn-primary" type="submit">{{ __('Save') }}</button>>
+        <button class="mt-4 btn btn-lg btn-primary" type="submit">{{ __('Save') }}</button>
 
         @if (session('status') === 'profile-updated')
             <p

@@ -19,5 +19,9 @@
 	"You have no best quiz! <a href=\":url\">Create a quiz</a> and start ranking.": "Tu n'a pas de meilleurs quiz, <a href=\":url\">créé en un</a> et commence à te surpasser!",
 	"Show more quizzes": "Afficher plus de quiz",
 	"Quiz name": "Nom du quiz",
-	"My quiz": "Mon quiz"
+	"My quiz": "Mon quiz",
+	"Created": "Créé le",
+	"Completed on": "Complété le",
+	"The Automath Cyborg Company": "La compagnie Automath Cyborg",
+	"All rights reserved.": "Tous droits réservés"
 }
