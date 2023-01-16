@@ -8,13 +8,15 @@ class PracticeController extends Controller
 {
     public function practice()
     {
-        $user = Auth::user();
-        
+        $oldestPendingQuiz = Quiz::scopeLatestPendingQuizzes(Auth::user(), 1)->first();
+
         // Redirect to oldest pending quiz
-        $oldestPendingQuiz = Quiz::scopePendingQuizzes(Auth::user())->orderBy('created_at', 'asc')->first();
-        0/0;
-        dd($oldestPendingQuiz);
-        // otherwise redirect to create a quiz page
-        
+        if(!empty($oldestPendingQuiz))
+        {
+            return redirect(route('solve.quiz', [ 'id' => $oldestPendingQuiz->id ]));
+        }
+
+        // Otherwise redirect to create a new quiz form
+        return redirect(route('create.quiz'));
     }
 }

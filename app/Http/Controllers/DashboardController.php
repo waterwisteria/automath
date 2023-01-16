@@ -12,7 +12,7 @@ class DashboardController extends Controller
     public function dashboard()
     {
         return view('cyborg/pages/dashboard', [
-            'pendingQuizzes' => Quiz::scopePendingQuizzes(Auth::user())->get(),
+            'pendingQuizzes' => Quiz::scopeLatestPendingQuizzes(Auth::user())->get(),
             'completedQuizzes' => Quiz::scopeByUserState(Auth::user(), QuizStatus::Completed)->count(),
             'bestQuizzes' => Quiz::scopeBestQuizzes(Auth::user())->get(),
             'questionsAnswered' => Quiz::scopeUserAnsweredQuestions(Auth::user())->count(),

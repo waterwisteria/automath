@@ -123,9 +123,14 @@ class Quiz extends Model
 		return Quiz::scopeByUserState($user, QuizStatus::Completed)->orderBy('score', 'desc')->take(config('automath.best_quizzes_per_page'));
 	}
 
-	public static function scopePendingQuizzes(User $user, int $take = 5) : Builder
+	public static function scopePendingQuizzes(User $user) : Builder
 	{
-		return Quiz::scopeByUserState($user, QuizStatus::Inprogress)->latest()->take($take);
+		return Quiz::scopeByUserState($user, QuizStatus::Inprogress);
+	}
+
+	public static function scopeLatestPendingQuizzes(User $user, int $take = 5) : Builder
+	{
+		return Quiz::scopePendingQuizzes($user)->orderBy('id', 'asc')->take($take);
 	}
 
 	/**

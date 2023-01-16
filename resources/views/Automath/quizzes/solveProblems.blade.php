@@ -17,7 +17,6 @@
 					<div class="col-lg-12">
 						<div class="main-button">
 							<button>{{ __('automath.submit-answers') }}</button>
-							<button>{{ __('automath.submit-answers') }}</button>
 						</div>
 					</div>
 				</div>
