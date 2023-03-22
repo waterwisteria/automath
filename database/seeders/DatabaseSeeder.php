@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
         User::create([
             'name' => 'demo',
             'email' => 'demo@demo',
-            'password' => '$2y$10$8Kbf2uPDvWaftpwYbbDXPOJv1tfqiV24mC8w3weh1q8AAwtwH4gDO'
+            'password' => '$2y$10$NkeW98BgsPUR0vRd7lByRuk.0KaWiXYtEMmLVt1yfRPNbCyMZsZH.' // "demo"
         ]);
 
         $this->call(\Database\Seeders\ProblemsSeeder::class);

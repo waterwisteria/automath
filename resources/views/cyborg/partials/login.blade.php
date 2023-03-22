@@ -38,6 +38,9 @@ body {
 			@csrf
 			
 			<h1 class="h3 mb-3 fw-normal">{{ __('Log in') }} | <a href="{{ route('register') }}">Register</a></h1>
+			@if($isDemoEnv)
+				<h6 class="mb-3"><i>{{ __('Use demo@demo:demo to login') }}</i></h6>
+			@endif
 			
 			<x-auth-session-status class="mb-4" :status="session('status')" />
 			

@@ -17,7 +17,9 @@ class AuthenticatedSessionController extends Controller
      */
     public function create()
     {
-        return view('cyborg/pages/login');
+        return view('cyborg/pages/login', [
+            'isDemoEnv' => config('app.env') === config('app.demo_env')
+        ]);
     }
 
     /**
